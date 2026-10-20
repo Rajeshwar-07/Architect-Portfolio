@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: architect-portfolio-api
+    runtime: java
+    buildCommand: cd backend && mvn clean package -DskipTests
+    startCommand: java -Dspring.profiles.active=prod -jar backend/target/architect-portfolio-1.0.0.jar
+    healthCheckPath: /api/projects
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DATABASE_URL
+        sync: false          # You paste this from Neon dashboard
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: FRONTEND_URL
+        sync: false          # Your Vercel URL e.g. https://myportfolio.vercel.app

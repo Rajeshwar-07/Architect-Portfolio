@@ -1,0 +1,22 @@
+# ---- Java / Maven ----
+backend/target/
+*.class
+*.jar
+*.war
+
+# ---- Node / npm ----
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+# ---- Uploads (don't commit user-uploaded images) ----
+backend/uploads/
+
+# ---- IDE ----
+.idea/
+.vscode/
+*.iml
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
