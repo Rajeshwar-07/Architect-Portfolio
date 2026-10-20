@@ -51,7 +51,7 @@ public class VisitorService {
                 .referrer(referrer)
                 .build();
 
-        visitorLogRepository.save(log);
+        visitorLogRepository.save(visitorLog);
         log.info("New visitor logged: {}", email);
         return true;
     }
