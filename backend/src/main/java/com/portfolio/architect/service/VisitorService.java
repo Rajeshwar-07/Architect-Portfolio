@@ -44,7 +44,7 @@ public class VisitorService {
             return false;
         }
 
-        VisitorLog log = VisitorLog.builder()
+        VisitorLog visitorLog = VisitorLog.builder()
                 .email(email)
                 .ipAddress(ipAddress)
                 .userAgent(userAgent)
