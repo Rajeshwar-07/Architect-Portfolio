@@ -10,9 +10,10 @@
 }
 
 .scrolled {
-  background: rgba(250, 249, 247, 0.96);
-  backdrop-filter: blur(8px);
+  background: rgba(245, 240, 235, 0.96);
+  backdrop-filter: blur(10px);
   border-color: var(--color-border);
+  box-shadow: 0 2px 20px rgba(139, 94, 60, 0.08);
 }
 
 .inner {
@@ -24,7 +25,6 @@
   padding: var(--space-5) var(--space-6);
 }
 
-/* ---- Brand ---- */
 .brand {
   display: flex;
   flex-direction: column;
@@ -33,21 +33,20 @@
 
 .brandName {
   font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 600;
   color: var(--color-text-primary);
   letter-spacing: -0.01em;
 }
 
 .brandTitle {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 400;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-accent);
 }
 
-/* ---- Desktop Nav ---- */
 .nav {
   display: flex;
   align-items: center;
@@ -57,7 +56,8 @@
 .navLink {
   font-size: 0.875rem;
   font-weight: 400;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--color-text-secondary);
   transition: color var(--transition-fast);
   position: relative;
@@ -69,14 +69,14 @@
   bottom: -3px;
   left: 0;
   width: 0;
-  height: 1px;
-  background: var(--color-text-primary);
+  height: 1.5px;
+  background: var(--color-accent);
   transition: width var(--transition-normal);
 }
 
 .navLink:hover,
 .navLink.active {
-  color: var(--color-text-primary);
+  color: var(--color-accent);
 }
 
 .navLink:hover::after,
@@ -84,7 +84,6 @@
   width: 100%;
 }
 
-/* ---- Hamburger ---- */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -94,7 +93,7 @@
 
 .bar {
   width: 22px;
-  height: 1px;
+  height: 1.5px;
   background: var(--color-text-primary);
   transition: transform var(--transition-fast), opacity var(--transition-fast);
   transform-origin: center;
@@ -105,7 +104,6 @@
 .barMidOpen { opacity: 0; }
 .barBotOpen { transform: translateY(-6px) rotate(-45deg); }
 
-/* ---- Mobile Drawer ---- */
 .mobileMenu {
   display: flex;
   flex-direction: column;
@@ -128,10 +126,9 @@
 
 .mobileLink:hover,
 .mobileLink.active {
-  color: var(--color-text-primary);
+  color: var(--color-accent);
 }
 
-/* ---- Responsive ---- */
 @media (max-width: 640px) {
   .nav { display: none; }
   .hamburger { display: flex; }

@@ -8,10 +8,6 @@ const NAV_LINKS = [
   { label: 'Contact', to: '/contact' },
 ];
 
-/**
- * Top navigation bar.
- * Minimal — logo left, nav links right, solid on scroll.
- */
 export default function Navbar() {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
@@ -23,19 +19,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => setMenuOpen(false), [location]);
 
   return (
     <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.inner}>
-        {/* Brand */}
         <Link to="/" className={styles.brand}>
-          <span className={styles.brandName}>Arjun Mehta</span>
-          <span className={styles.brandTitle}>Architect</span>
+          <span className={styles.brandName}>Anand Sherkar</span>
+          <span className={styles.brandTitle}>Architect · Pune</span>
         </Link>
 
-        {/* Desktop nav */}
         <nav className={styles.nav} aria-label="Main navigation">
           {NAV_LINKS.map(({ label, to }) => (
             <Link
@@ -48,7 +41,6 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Mobile hamburger */}
         <button
           className={styles.hamburger}
           onClick={() => setMenuOpen((v) => !v)}
@@ -61,7 +53,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile drawer */}
       {menuOpen && (
         <div className={styles.mobileMenu}>
           {NAV_LINKS.map(({ label, to }) => (

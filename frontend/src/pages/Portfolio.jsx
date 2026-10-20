@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { projectsApi } from '../services/api';
 import ProjectCard from '../components/ProjectCard';
+import WorkSlider from '../components/WorkSlider';
 import styles from './Portfolio.module.css';
 
 const ALL = 'All';
@@ -37,15 +38,27 @@ export default function Portfolio() {
 
   return (
     <div className={styles.page}>
-      <div className="container">
 
-        {/* Page header */}
-        <header className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Work</h1>
+      {/* ── Dark page header ── */}
+      <div className={styles.pageHeader}>
+        <div className="container">
+          <p className={styles.eyebrow}>Portfolio</p>
+          <h1 className={styles.pageTitle}>Selected Work</h1>
           <p className={styles.pageDesc}>
-            A collection of architectural projects across scales and typologies.
+            Residential, farmhouse and commercial projects — from drawing to built form.
           </p>
-        </header>
+        </div>
+      </div>
+
+      {/* ── Featured slider ── */}
+      <div className={styles.sliderSection}>
+        <div className="container">
+          <p className={styles.sectionLabel}>Recent Projects</p>
+          <WorkSlider />
+        </div>
+      </div>
+
+      <div className="container">
 
         {/* Category filter */}
         {categories.length > 1 && (
