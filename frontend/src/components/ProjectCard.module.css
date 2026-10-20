@@ -1,0 +1,91 @@
+.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  group: true;
+}
+
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.card:hover .image {
+  transform: scale(1.03);
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0ede8;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0);
+  transition: background var(--transition-slow);
+}
+
+.card:hover .overlay {
+  background: rgba(26, 26, 26, 0.06);
+}
+
+/* ---- Info below image ---- */
+.info {
+  padding: var(--space-4) 0 0;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+
+.category {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.year {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.year::before {
+  content: '—';
+  margin-right: var(--space-2);
+  opacity: 0.5;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+  transition: opacity var(--transition-fast);
+}
+
+.card:hover .title { opacity: 0.75; }
+
+.location {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
