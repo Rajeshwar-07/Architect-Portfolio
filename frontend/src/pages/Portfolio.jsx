@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { projectsApi } from '../services/api';
 import ProjectCard from '../components/ProjectCard';
-import WorkSlider from '../components/WorkSlider';
+import ProjectGrid from '../components/ProjectGrid';
 import styles from './Portfolio.module.css';
 
 const ALL = 'All';
 
-/**
- * Portfolio page — full grid with category filter tabs.
- */
 export default function Portfolio() {
-  const [projects,  setProjects]  = useState([]);
-  const [filtered,  setFiltered]  = useState([]);
+  const [projects,   setProjects]   = useState([]);
+  const [filtered,   setFiltered]   = useState([]);
   const [categories, setCategories] = useState([ALL]);
-  const [active,    setActive]    = useState(ALL);
-  const [loading,   setLoading]   = useState(true);
+  const [active,     setActive]     = useState(ALL);
+  const [loading,    setLoading]    = useState(true);
 
   useEffect(() => {
     projectsApi.getAll()
@@ -22,8 +19,6 @@ export default function Portfolio() {
         const data = res.data || [];
         setProjects(data);
         setFiltered(data);
-
-        // Extract unique categories
         const cats = [ALL, ...new Set(data.map((p) => p.category).filter(Boolean))];
         setCategories(cats);
       })
@@ -50,17 +45,16 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* ── Featured slider ── */}
-      <div className={styles.sliderSection}>
+      {/* ── Featured project grid (2 images per card, auto-slides every 5s) ── */}
+      <div className={styles.gridSection}>
         <div className="container">
           <p className={styles.sectionLabel}>Recent Projects</p>
-          <WorkSlider />
+          <ProjectGrid />
         </div>
       </div>
 
+      {/* ── Backend project grid ── */}
       <div className="container">
-
-        {/* Category filter */}
         {categories.length > 1 && (
           <div className={styles.filterBar} role="tablist" aria-label="Filter by category">
             {categories.map((cat) => (
@@ -77,7 +71,6 @@ export default function Portfolio() {
           </div>
         )}
 
-        {/* Grid */}
         {loading ? (
           <div className={styles.grid}>
             {[1, 2, 3, 4, 5, 6].map((n) => (
@@ -93,7 +86,6 @@ export default function Portfolio() {
         ) : (
           <p className={styles.empty}>No projects found in this category.</p>
         )}
-
       </div>
     </div>
   );

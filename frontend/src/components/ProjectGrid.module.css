@@ -1,0 +1,137 @@
+/* ── Grid: 3 equal columns ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+/* ── Card ── */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  overflow: hidden;
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(28,22,18,0.12);
+  transform: translateY(-3px);
+}
+
+/* ── Image area ── */
+.imgWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-dark);
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.fadeIn  { animation: fadeIn  0.32s ease forwards; }
+.fadeOut { animation: fadeOut 0.28s ease forwards; }
+
+/* ── Dots ── */
+.dots {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  gap: 5px;
+  z-index: 2;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  display: block;
+  transition: background 0.25s;
+}
+
+.dotActive {
+  background: var(--color-gold);
+}
+
+/* ── Overlay caption ── */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  background: linear-gradient(transparent, rgba(28,22,18,0.75));
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.tag {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  background: rgba(28,22,18,0.55);
+  border: 1px solid rgba(201,169,110,0.3);
+  padding: 3px 8px;
+  border-radius: 99px;
+}
+
+.caption {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.04em;
+}
+
+/* ── Card footer ── */
+.footer {
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-text-primary);
+}
+
+.counter {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.08em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+}
