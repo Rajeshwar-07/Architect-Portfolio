@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { projectsApi, visitorsApi } from '../services/api';
+import { projectsApi, visitorsApi, contactApi } from '../services/api';
 import styles from './Admin.module.css';
 
 /* ─── Simple password gate ─────────────────────────────────────────────── */
@@ -43,9 +43,10 @@ function PasswordGate({ onUnlock }) {
 
 /* ─── Tabs config ──────────────────────────────────────────────────────── */
 const TABS = [
-  { key: 'projects', label: 'All Projects',  icon: '🗂️' },
-  { key: 'add',      label: 'Add Project',   icon: '➕' },
-  { key: 'visitors', label: 'Visitors',      icon: '👥' },
+  { key: 'projects',   label: 'All Projects',  icon: '🗂️' },
+  { key: 'add',        label: 'Add Project',   icon: '➕' },
+  { key: 'inquiries',  label: 'Inquiries',     icon: '✉️' },
+  { key: 'visitors',   label: 'Visitors',      icon: '👥' },
 ];
 
 const CATEGORIES = ['Residential', 'Commercial', 'Interior', 'Farmhouse', 'Construction', 'Other'];
@@ -78,6 +79,10 @@ function AdminPanel() {
   const [editForm, setEditForm] = useState({});
   const [editMsg, setEditMsg]   = useState({ text: '', ok: false });
 
+  // ── Inquiries state ──
+  const [inquiries, setInquiries]         = useState([]);
+  const [loadingInquiries, setLoadingInquiries] = useState(false);
+
   // ── Visitors state ──
   const [visitors, setVisitors] = useState([]);
   const [visitorCount, setVisitorCount] = useState(null);
@@ -85,7 +90,8 @@ function AdminPanel() {
 
   // ── Load ──
   useEffect(() => { loadProjects(); }, []);
-  useEffect(() => { if (tab === 'visitors') loadVisitors(); }, [tab]);
+  useEffect(() => { if (tab === 'inquiries') loadInquiries(); }, [tab]);
+  useEffect(() => { if (tab === 'visitors')  loadVisitors();  }, [tab]);
 
   const loadProjects = () => {
     setLoadingProjects(true);
@@ -93,6 +99,19 @@ function AdminPanel() {
       .then((res) => setProjects(Array.isArray(res) ? res : (res.data || [])))
       .catch(() => setProjects([]))
       .finally(() => setLoadingProjects(false));
+  };
+
+  const loadInquiries = () => {
+    setLoadingInquiries(true);
+    contactApi.getInquiries()
+      .then((res) => setInquiries(Array.isArray(res) ? res : (res.data || [])))
+      .catch(() => setInquiries([]))
+      .finally(() => setLoadingInquiries(false));
+  };
+
+  const markRead = async (id) => {
+    await contactApi.markRead(id).catch(() => {});
+    setInquiries((prev) => prev.map((i) => i.id === id ? { ...i, isRead: true } : i));
   };
 
   const loadVisitors = () => {
@@ -388,6 +407,53 @@ function AdminPanel() {
                 </button>
               </div>
             </form>
+          </div>
+        )}
+
+        {/* ════════════ INQUIRIES ════════════ */}
+        {tab === 'inquiries' && (
+          <div className={styles.panel}>
+            <div className={styles.panelHead}>
+              <h2 className={styles.panelTitle}>Contact Inquiries</h2>
+              <button className={styles.refreshBtn} onClick={loadInquiries}>↻ Refresh</button>
+            </div>
+
+            {loadingInquiries ? (
+              <p className={styles.loadMsg}>Loading…</p>
+            ) : inquiries.length === 0 ? (
+              <p className={styles.emptyMsg}>No inquiries yet. When someone fills the contact form, it will appear here.</p>
+            ) : (
+              <div className={styles.inquiryList}>
+                {inquiries.map((inq) => (
+                  <div key={inq.id} className={`${styles.inquiryCard} ${!inq.isRead ? styles.inquiryUnread : ''}`}>
+                    <div className={styles.inquiryHead}>
+                      <div>
+                        <span className={styles.inquiryName}>{inq.name}</span>
+                        {!inq.isRead && <span className={styles.newBadge}>NEW</span>}
+                      </div>
+                      <span className={styles.inquiryDate}>
+                        {new Date(inq.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                    </div>
+                    <div className={styles.inquiryContact}>
+                      <a href={`mailto:${inq.email}`} className={styles.inquiryEmail}>{inq.email}</a>
+                      {inq.phone && <span className={styles.inquiryPhone}>· {inq.phone}</span>}
+                    </div>
+                    <p className={styles.inquiryMsg}>{inq.message}</p>
+                    <div className={styles.inquiryActions}>
+                      <a href={`mailto:${inq.email}?subject=Re: Your project inquiry`} className={styles.replyBtn}>
+                        ✉️ Reply
+                      </a>
+                      {!inq.isRead && (
+                        <button className={styles.readBtn} onClick={() => markRead(inq.id)}>
+                          ✓ Mark as read
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

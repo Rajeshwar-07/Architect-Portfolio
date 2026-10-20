@@ -97,8 +97,17 @@ export const projectsApi = {
 // ============================================================
 
 export const contactApi = {
-  /** Send a contact form message */
+  /** Send a contact form message — saves to contact_inquiries table */
   sendMessage: (data) => apiClient.post('/contact', data),
+
+  /** Get all inquiries (admin use) */
+  getInquiries: () => apiClient.get('/contact/inquiries'),
+
+  /** Get only unread inquiries (admin use) */
+  getUnread: () => apiClient.get('/contact/inquiries/unread'),
+
+  /** Mark an inquiry as read */
+  markRead: (id) => apiClient.patch(`/contact/inquiries/${id}/read`),
 };
 
 // ============================================================
