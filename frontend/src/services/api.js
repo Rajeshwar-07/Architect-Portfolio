@@ -74,10 +74,19 @@ export const projectsApi = {
 
   /**
    * Update project metadata (title, category, etc.).
+   * Backend expects @RequestParam (form fields), not JSON body.
    * @param {number} id
    * @param {Object} data - { title, description, category, location, year, isFeatured }
    */
-  update: (id, data) => apiClient.put(`/projects/${id}`, data),
+  update: (id, data) => {
+    const params = new URLSearchParams();
+    Object.entries(data).forEach(([k, v]) => {
+      if (v !== null && v !== undefined && v !== '') params.append(k, v);
+    });
+    return apiClient.put(`/projects/${id}`, params, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+  },
 
   /** Delete a project */
   delete: (id) => apiClient.delete(`/projects/${id}`),
